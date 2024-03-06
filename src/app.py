@@ -3,6 +3,9 @@ from langchain.schema import (
     AIMessage,
     HumanMessage)
 from langchain_community.document_loaders import WebBaseLoader
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_community.vectorstores import Chroma
+from langchain_openai import OpenAIEmbeddings
 
 
 def get_response(user_input):
@@ -10,9 +13,17 @@ def get_response(user_input):
 
 
 def get_vectorstore_from_url(url):
+    # get the text in document form
     loader = WebBaseLoader(url)
     documents = loader.load()
-    return documents
+
+    # split the document into chunks
+    text_splitter = RecursiveCharacterTextSplitter()
+    document_chunks = text_splitter.split_documents(documents)
+
+    # create vectorstore from the chunks
+    vector_store = Chroma.from_documents(document_chunks, OpenAIEmbeddings())
+    return vector_store
 
 
 # app config
@@ -33,9 +44,7 @@ if website_url is None or website_url == "":
     st.info("Please enter a webiste URL")
 else:
     # print(website_url)
-    documents = get_vectorstore_from_url(website_url)
-    with st.sidebar:
-        st.write(documents)
+    document_chunks = get_vectorstore_from_url(website_url)
 
     user_query = st.chat_input("Type your message here...")
     if user_query is not None and user_query != "":
