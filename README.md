@@ -3,6 +3,11 @@
 
 Welcome to the GitHub repository for the LangChain Chatbot with Streamlit GUI! This project is a comprehensive guide to building a chatbot capable of interacting with websites, extracting information, and communicating in a user-friendly manner. It leverages the power of LangChain 0.1.0 and Microsoft Azure's OpenAI LLMs and Embedding Models for an enhanced user experience.
 
+## Demo:
+
+
+https://github.com/user-attachments/assets/a4c8ae15-1df4-4b5d-a62f-3a3a064616b6
+
 
 
 
